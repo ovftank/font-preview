@@ -1,6 +1,6 @@
 # Font Preview
 
-list và preview, copy tên system fonts.
+list, preview, copy tên system fonts.
 
 ## Screenshot
 
