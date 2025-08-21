@@ -255,7 +255,7 @@ const showUpdateNotification = (status, data) => {
 
     switch (status) {
         case 'checking':
-            updateIcon.className = 'fas fa-sync-alt fa-spin text-blue-500 text-lg';
+            updateIcon.className = 'fas fa-sync-alt animate-spin text-gray-600 text-[10px]';
             updateTitle.textContent = 'Checking for updates...';
             updateMessage.textContent = data.message;
             updateProgress.classList.add('hidden');
@@ -263,7 +263,7 @@ const showUpdateNotification = (status, data) => {
             break;
 
         case 'available':
-            updateIcon.className = 'fas fa-download text-green-500 text-lg';
+            updateIcon.className = 'fas fa-download text-blue-600 text-[10px]';
             updateTitle.textContent = 'Update Available';
             updateMessage.textContent = data.message;
             updateInfo = data;
@@ -272,7 +272,7 @@ const showUpdateNotification = (status, data) => {
             break;
 
         case 'downloading': {
-            updateIcon.className = 'fas fa-download text-blue-500 text-lg';
+            updateIcon.className = 'fas fa-download text-blue-600 text-[10px]';
             updateTitle.textContent = 'Downloading Update';
             updateMessage.textContent = data.message;
             updateProgress.classList.remove('hidden');
@@ -290,7 +290,7 @@ const showUpdateNotification = (status, data) => {
         }
 
         case 'downloaded':
-            updateIcon.className = 'fas fa-check-circle text-green-500 text-lg';
+            updateIcon.className = 'fas fa-check-circle text-blue-600 text-[10px]';
             updateTitle.textContent = 'Update Ready';
             updateMessage.textContent = data.message;
             updateProgress.classList.add('hidden');
@@ -298,7 +298,7 @@ const showUpdateNotification = (status, data) => {
             break;
 
         case 'not-available':
-            updateIcon.className = 'fas fa-check text-green-500 text-lg';
+            updateIcon.className = 'fas fa-check text-gray-600 text-[10px]';
             updateTitle.textContent = 'Up to Date';
             updateMessage.textContent = data.message;
             updateProgress.classList.add('hidden');
@@ -310,7 +310,7 @@ const showUpdateNotification = (status, data) => {
             break;
 
         case 'error':
-            updateIcon.className = 'fas fa-exclamation-triangle text-red-500 text-lg';
+            updateIcon.className = 'fas fa-exclamation-triangle text-red-600 text-[10px]';
             updateTitle.textContent = 'Update Error';
             updateMessage.textContent = data.message;
             updateProgress.classList.add('hidden');
@@ -349,6 +349,10 @@ const setupUpdateListeners = () => {
     });
 
     closeNotificationBtn.addEventListener('click', () => {
+        hideUpdateNotification();
+    });
+
+    document.getElementById('close-notification').addEventListener('click', () => {
         hideUpdateNotification();
     });
 };

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="vi">
+<html lang="en">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -106,35 +106,34 @@
             </div>
         </div>
 
-        <div id="update-notification" class="hidden fixed top-4 right-4 max-w-sm bg-white border border-gray-300 rounded-lg shadow-lg p-4 z-50">
-            <div class="flex items-start gap-3">
-                <div class="flex-shrink-0">
-                    <i id="update-icon" class="fas fa-download text-blue-500 text-lg"></i>
+        <div id="update-notification" class="hidden fixed top-4 right-4 w-80 bg-gradient-to-b from-gray-100 to-gray-200 border border-gray-400 rounded-sm shadow-md z-50">
+            <div class="bg-gradient-to-b from-gray-200 to-gray-300 border-b border-gray-400 px-2 py-1 text-[10px] text-gray-700 flex items-center justify-between rounded-t-sm">
+                <div class="flex items-center gap-1.5">
+                    <i id="update-icon" class="fas fa-download text-gray-600 text-[10px]"></i>
+                    <span id="update-title" class="font-medium">Update Available</span>
                 </div>
-                <div class="flex-1">
-                    <h4 id="update-title" class="text-sm font-medium text-gray-900 mb-1">Checking for updates...</h4>
-                    <p id="update-message" class="text-xs text-gray-600 mb-2">Please wait while we check for updates.</p>
-                    <div id="update-progress" class="hidden">
-                        <div class="w-full bg-gray-200 rounded-full h-2 mb-2">
-                            <div id="progress-bar" class="bg-blue-500 h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
-                        </div>
-                        <div class="text-xs text-gray-500 flex justify-between">
-                            <span id="progress-text">0%</span>
-                            <span id="progress-speed"></span>
-                        </div>
-                    </div>
-                    <div id="update-actions" class="hidden flex gap-2 mt-2">
-                        <button id="install-update" class="px-3 py-1 bg-blue-500 text-white rounded text-xs hover:bg-blue-600 transition-colors">
-                            Install & Restart
-                        </button>
-                        <button id="dismiss-update" class="px-3 py-1 bg-gray-200 text-gray-700 rounded text-xs hover:bg-gray-300 transition-colors">
-                            Later
-                        </button>
-                    </div>
-                </div>
-                <button id="close-notification" class="flex-shrink-0 text-gray-400 hover:text-gray-600">
-                    <i class="fas fa-times text-xs"></i>
+                <button id="close-notification" class="w-4 h-4 text-[9px] bg-gradient-to-b from-white to-gray-200 border border-gray-400 text-gray-700 rounded-sm hover:from-gray-50 hover:to-gray-300 hover:border-gray-500 flex items-center justify-center">
+                    <i class="fas fa-times"></i>
                 </button>
+            </div>
+
+            <div class="p-2.5">
+                <p id="update-message" class="text-[11px] text-gray-700 mb-2 leading-snug">Please wait while we check for updates.</p>
+
+                <div id="update-progress" class="hidden mb-2">
+                    <div class="w-full bg-white border border-gray-400 rounded-sm h-3 mb-1.5 shadow-inner">
+                        <div id="progress-bar" class="bg-gradient-to-r from-blue-400 to-blue-500 h-full rounded-sm transition-all duration-300 shadow-sm" style="width: 0%"></div>
+                    </div>
+                    <div class="text-[10px] text-gray-600 flex justify-between">
+                        <span id="progress-text">0%</span>
+                        <span id="progress-speed"></span>
+                    </div>
+                </div>
+
+                <div id="update-actions" class="hidden flex gap-1.5">
+                    <button id="install-update" class="flex-1 px-2 py-1 text-[10px] bg-gradient-to-b from-blue-400 to-blue-600 border border-blue-500 text-white rounded-sm hover:from-blue-300 hover:to-blue-500 active:from-blue-500 active:to-blue-700 font-medium">Install & Restart</button>
+                    <button id="dismiss-update" class="px-2 py-1 text-[10px] bg-gradient-to-b from-white to-gray-200 border border-gray-400 text-gray-700 rounded-sm hover:from-gray-50 hover:to-gray-300 hover:border-gray-500">Later</button>
+                </div>
             </div>
         </div>
 
