@@ -15,7 +15,15 @@
             "installerLanguages": [
                 "vi_VN"
             ],
-            "oneClick": true
+            "oneClick": true,
+            "uninstallDisplayName": "Font Preview",
+            "uninstallerIcon": "src/assets/icon.ico"
+        },
+        "publish": {
+            "provider": "github",
+            "owner": "ovftank",
+            "repo": "font-preview",
+            "releaseType": "release"
         },
         "productName": "Font Preview",
         "win": {
@@ -30,6 +38,9 @@
             ]
         }
     },
+    "dependencies": {
+        "electron-updater": "6.6.2"
+    },
     "description": "list và preview, copy tên system fonts.",
     "devDependencies": {
         "electron": "37.3.1",
@@ -41,7 +52,7 @@
     "name": "font-preview",
     "productName": "Font Preview",
     "scripts": {
-        "build": "electron-builder --publish=never",
+        "build": "electron-builder",
         "format": "prettier --write .",
         "start": "electron ."
     },

@@ -2,6 +2,8 @@ import { app, BrowserWindow, ipcMain } from 'electron';
 import path from 'path';
 import { exec } from 'child_process';
 import { fileURLToPath } from 'url';
+import pkg from 'electron-updater';
+const { autoUpdater } = pkg;
 
 const createWindow = () => {
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -43,6 +45,17 @@ ipcMain.on('window:close', (event) => {
     if (win) win.close();
 });
 
+const sendUpdateStatus = (status, data) => {
+    const allWindows = BrowserWindow.getAllWindows();
+    allWindows.forEach((win) => {
+        win.webContents.send('update-status', { status, ...data });
+    });
+};
+
+ipcMain.on('install-update', () => {
+    autoUpdater.quitAndInstall();
+});
+
 ipcMain.handle('get-fonts', async () => {
     return new Promise((resolve) => {
         const psCommand = `powershell -command "Add-Type -AssemblyName System.Drawing; [System.Drawing.FontFamily]::Families | ForEach-Object { $_.Name }"`;
@@ -68,6 +81,42 @@ ipcMain.handle('get-fonts', async () => {
 
 app.whenReady().then(() => {
     createWindow();
+
+    autoUpdater.checkForUpdatesAndNotify();
+
+    autoUpdater.on('checking-for-update', () => {
+        sendUpdateStatus('checking', { message: 'Checking for updates...' });
+    });
+
+    autoUpdater.on('update-available', (info) => {
+        sendUpdateStatus('available', {
+            message: `Version ${info.version} is available`,
+            version: info.version,
+            releaseNotes: info.releaseNotes
+        });
+    });
+
+    autoUpdater.on('update-not-available', () => {
+        sendUpdateStatus('not-available', { message: 'You have the latest version' });
+    });
+
+    autoUpdater.on('download-progress', (progress) => {
+        sendUpdateStatus('downloading', {
+            message: 'Downloading update...',
+            percent: Math.round(progress.percent),
+            bytesPerSecond: progress.bytesPerSecond,
+            total: progress.total,
+            transferred: progress.transferred
+        });
+    });
+
+    autoUpdater.on('update-downloaded', () => {
+        sendUpdateStatus('downloaded', { message: 'Update ready to install' });
+    });
+
+    autoUpdater.on('error', (err) => {
+        sendUpdateStatus('error', { message: `Update error: ${err.message}` });
+    });
 
     app.on('activate', () => {
         if (BrowserWindow.getAllWindows().length === 0) {

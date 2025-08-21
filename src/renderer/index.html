@@ -106,6 +106,38 @@
             </div>
         </div>
 
+        <div id="update-notification" class="hidden fixed top-4 right-4 max-w-sm bg-white border border-gray-300 rounded-lg shadow-lg p-4 z-50">
+            <div class="flex items-start gap-3">
+                <div class="flex-shrink-0">
+                    <i id="update-icon" class="fas fa-download text-blue-500 text-lg"></i>
+                </div>
+                <div class="flex-1">
+                    <h4 id="update-title" class="text-sm font-medium text-gray-900 mb-1">Checking for updates...</h4>
+                    <p id="update-message" class="text-xs text-gray-600 mb-2">Please wait while we check for updates.</p>
+                    <div id="update-progress" class="hidden">
+                        <div class="w-full bg-gray-200 rounded-full h-2 mb-2">
+                            <div id="progress-bar" class="bg-blue-500 h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+                        </div>
+                        <div class="text-xs text-gray-500 flex justify-between">
+                            <span id="progress-text">0%</span>
+                            <span id="progress-speed"></span>
+                        </div>
+                    </div>
+                    <div id="update-actions" class="hidden flex gap-2 mt-2">
+                        <button id="install-update" class="px-3 py-1 bg-blue-500 text-white rounded text-xs hover:bg-blue-600 transition-colors">
+                            Install & Restart
+                        </button>
+                        <button id="dismiss-update" class="px-3 py-1 bg-gray-200 text-gray-700 rounded text-xs hover:bg-gray-300 transition-colors">
+                            Later
+                        </button>
+                    </div>
+                </div>
+                <button id="close-notification" class="flex-shrink-0 text-gray-400 hover:text-gray-600">
+                    <i class="fas fa-times text-xs"></i>
+                </button>
+            </div>
+        </div>
+
         <script src="renderer.js"></script>
     </body>
 </html>

@@ -38,39 +38,10 @@ jobs:
                   }
 
             - name: Build project
+              env:
+                  GH_TOKEN: ${{ secrets.GH_TOKEN }}
               run: |
                   pnpm build
                   if (-not (Test-Path "dist")) {
                     exit 1
                   }
-
-            - name: Prepare release artifacts
-              run: |
-                  New-Item -ItemType Directory -Force -Path "release-build"
-                  if (Test-Path "dist") {
-                    Copy-Item -Path "dist\*" -Destination "release-build\" -Recurse -Force
-                  }
-
-            - name: Create GitHub Release
-              uses: softprops/action-gh-release@v2
-              with:
-                  tag_name: ${{ github.ref_name }}
-                  name: Release ${{ github.ref_name }}
-                  draft: false
-                  prerelease: false
-                  files: |
-                      dist/*.exe
-                      dist/*.exe.blockmap
-                  body: |
-                      ## Changes in ${{ github.ref_name }}
-
-                      - Built from commit: ${{ github.sha }}
-                      - Build date: ${{ github.run_number }}
-                      - Workflow: ${{ github.workflow }}
-
-                      ### Download
-                      Download the installer file below to install Font Preview.
-
-                      ### Contents
-                      - Font Preview Setup executable
-                      - Blockmap file for updates

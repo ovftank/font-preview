@@ -235,4 +235,125 @@ const setupSplitter = () => {
     });
 };
 
-document.addEventListener('DOMContentLoaded', init);
+const updateNotification = document.getElementById('update-notification');
+const updateIcon = document.getElementById('update-icon');
+const updateTitle = document.getElementById('update-title');
+const updateMessage = document.getElementById('update-message');
+const updateProgress = document.getElementById('update-progress');
+const progressBar = document.getElementById('progress-bar');
+const progressText = document.getElementById('progress-text');
+const progressSpeed = document.getElementById('progress-speed');
+const updateActions = document.getElementById('update-actions');
+const installUpdateBtn = document.getElementById('install-update');
+const dismissUpdateBtn = document.getElementById('dismiss-update');
+const closeNotificationBtn = document.getElementById('close-notification');
+
+let updateInfo = null;
+
+const showUpdateNotification = (status, data) => {
+    updateNotification.classList.remove('hidden');
+
+    switch (status) {
+        case 'checking':
+            updateIcon.className = 'fas fa-sync-alt fa-spin text-blue-500 text-lg';
+            updateTitle.textContent = 'Checking for updates...';
+            updateMessage.textContent = data.message;
+            updateProgress.classList.add('hidden');
+            updateActions.classList.add('hidden');
+            break;
+
+        case 'available':
+            updateIcon.className = 'fas fa-download text-green-500 text-lg';
+            updateTitle.textContent = 'Update Available';
+            updateMessage.textContent = data.message;
+            updateInfo = data;
+            updateProgress.classList.add('hidden');
+            updateActions.classList.add('hidden');
+            break;
+
+        case 'downloading': {
+            updateIcon.className = 'fas fa-download text-blue-500 text-lg';
+            updateTitle.textContent = 'Downloading Update';
+            updateMessage.textContent = data.message;
+            updateProgress.classList.remove('hidden');
+            updateActions.classList.add('hidden');
+
+            const percent = data.percent || 0;
+            progressBar.style.width = `${percent}%`;
+            progressText.textContent = `${percent}%`;
+
+            if (data.bytesPerSecond) {
+                const speed = formatBytes(data.bytesPerSecond);
+                progressSpeed.textContent = `${speed}/s`;
+            }
+            break;
+        }
+
+        case 'downloaded':
+            updateIcon.className = 'fas fa-check-circle text-green-500 text-lg';
+            updateTitle.textContent = 'Update Ready';
+            updateMessage.textContent = data.message;
+            updateProgress.classList.add('hidden');
+            updateActions.classList.remove('hidden');
+            break;
+
+        case 'not-available':
+            updateIcon.className = 'fas fa-check text-green-500 text-lg';
+            updateTitle.textContent = 'Up to Date';
+            updateMessage.textContent = data.message;
+            updateProgress.classList.add('hidden');
+            updateActions.classList.add('hidden');
+
+            setTimeout(() => {
+                hideUpdateNotification();
+            }, 3000);
+            break;
+
+        case 'error':
+            updateIcon.className = 'fas fa-exclamation-triangle text-red-500 text-lg';
+            updateTitle.textContent = 'Update Error';
+            updateMessage.textContent = data.message;
+            updateProgress.classList.add('hidden');
+            updateActions.classList.add('hidden');
+
+            setTimeout(() => {
+                hideUpdateNotification();
+            }, 5000);
+            break;
+    }
+};
+
+const hideUpdateNotification = () => {
+    updateNotification.classList.add('hidden');
+};
+
+const formatBytes = (bytes) => {
+    if (bytes === 0) return '0 B';
+    const k = 1024;
+    const sizes = ['B', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+};
+
+const setupUpdateListeners = () => {
+    window.electronAPI.onUpdateStatus((event, data) => {
+        showUpdateNotification(data.status, data);
+    });
+
+    installUpdateBtn.addEventListener('click', () => {
+        window.electronAPI.installUpdate();
+    });
+
+    dismissUpdateBtn.addEventListener('click', () => {
+        hideUpdateNotification();
+    });
+
+    closeNotificationBtn.addEventListener('click', () => {
+        hideUpdateNotification();
+    });
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+    init();
+    setupUpdateListeners();
+});
