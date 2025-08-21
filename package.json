@@ -1,0 +1,49 @@
+{
+    "author": {
+        "email": "admin@ovfteam.com",
+        "name": "ovftank",
+        "url": "https://ovfteam.com"
+    },
+    "version": "0.0.1",
+    "build": {
+        "appId": "com.ovfteam.font-preview",
+        "compression": "maximum",
+        "nsis": {
+            "createDesktopShortcut": true,
+            "deleteAppDataOnUninstall": true,
+            "installerIcon": "src/assets/icon.ico",
+            "installerLanguages": [
+                "vi_VN"
+            ],
+            "oneClick": true
+        },
+        "productName": "Font Preview",
+        "win": {
+            "icon": "src/assets/icon.ico",
+            "target": [
+                {
+                    "arch": [
+                        "x64"
+                    ],
+                    "target": "nsis"
+                }
+            ]
+        }
+    },
+    "description": "list và preview, copy tên system fonts.",
+    "devDependencies": {
+        "electron": "37.3.1",
+        "electron-builder": "26.0.12",
+        "prettier": "3.6.2",
+        "prettier-plugin-tailwindcss": "0.6.14"
+    },
+    "main": "main.js",
+    "name": "font-preview",
+    "productName": "Font Preview",
+    "scripts": {
+        "build": "electron-builder --publish=never",
+        "format": "prettier --write .",
+        "start": "electron ."
+    },
+    "type": "module"
+}
